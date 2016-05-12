@@ -1,0 +1,55 @@
+\documentclass{article}
+
+\usepackage{polski}
+\usepackage[cp1250]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+
+\author{Monika ¯urkowska\\ Kacper Sarnacki}
+\title{Specyfikacja Wstêpna\\ \textbf{Zmodyfikowany algorytm ewolucji ró¿nicowej}}
+\begin{document}
+\maketitle
+
+\section{Wstêp}
+
+Ewolucja ró¿nicowa jest stosunkowo nowym algorytmem optymalizacji numerycznej. Osobnikami s¹ L-wymiarowe wektory liczb rzeczywistych, w których fenotyp jest identyczny z genotypem, a mutacja polega na perturbacji losowo losowo wybranego wektora o ró¿nicê dwóch innych wektorów pomno¿on¹ przez sta³y wspó³czynnik.
+
+Algorytm jest bardzo prosty i dzia³a bardzo dobrze na typowych funkcjach testowych. Wymaga tylko trzech parametrów:\\
+
+\noindent
+\textbf{S} - rozmiar populacji\\
+\textbf{F} - odpowiedzialny za sterowanie mutacj¹\\
+\textbf{CR} - steruj¹cy krzy¿owaniem\\
+
+\section{Selekcja i sukcesja}
+
+Algorytm ewolucji ró¿nicowej operuje na populacji S osobników: $x_1, x_2, \ldots, x_S$, gdzie $x_i \in \mathbf{R}^L$. W ka¿dym kroku algorytmu dla ka¿dego osobnika $x_i$ tworzony jest \textbf{osobnik próbny}, powsta³y poprzez zastosowanie operatorów mutacji i krzy¿owania. Nastêpnie dopasowanie osobnika próbnego $u_i$ porównywane jest z osobnikiem rodzica $x_i$. Jeœli jest ono lepsze od rodzica, $x_i$ zostaje zast¹pione osobnikiem próbnym, w przeciwnym przypadku osobnik $u_i$ zostaje odrzucony.
+
+\section{Mutacja}
+
+Wynikiem mutacji jest nowy wektor $v_i$ (zwany osobnikiem \textbf{mutantem}) otrzymany w nastêpuj¹cy sposób:
+
+\begin{equation}
+v_i = x_{œr} + F * (x_{r_1} - x_{r_2})
+\end{equation}
+
+,gdzie $F \in [0,1]$ jest sta³y parametrem zwanym \textbf{wspó³czynnikiem amplifkacji} (typowa wartoœæ tego wspó³czynnika wynosi F = 0.5), $r_1, r_2$ to dwa losowo wygenerowane numery osobników ze zbioru ${1, 2, \ldots, S}$, takie ¿e: $i \neq r_1 \neq r_2$ a $x_{œr}$ jest œredni¹ z punktów populacji.
+
+\section{Krzy¿owanie}
+
+Wynikiem krzy¿owania operuj¹cego na rodzicu $x_i$ i mutancie $v_i$ jest osobnik próbny $u_i$, który nastêpnie w procesie sukcesji zostanie porównany z osobnikiem $x_i$.
+Ka¿dy element $u_{i,j} (j = 1, 2, \ldots, L)$, wektora $u_i$ jest wyznaczany w nastêpuj¹cy sposób:
+
+\begin{equation}
+u_{i,j} = \begin{cases}
+			v_{i,j} & \text{je¿eli $rnd_j < CR$ lub j = d}\\
+			x_{i,j} & \text{w przeciwnym przypadku}\\
+		  \end{cases}
+\end{equation}
+
+,gdzie $rnd_j$ jest liczb¹ losow¹ z przedzia³u [0,1) losowan¹ niezale¿nie od ka¿dego $j$. $CR \in [0,1]$ jest sta³ym parametrem algorytmu a $d$ jest losowym numerem elementu wektora losowanego ze zbioru {1, 2, \ldots, L}.
+
+$CR$ oznacza prawdopodobieñstwo przejœcia elementu z wektora mutanta $v_i$ do wektora próbnego $u_i$. Dla $CR = 1$ wszystkie elementy wektora próbnego $u_i$ pochodz¹ z mutanta $v_i$ (analogicznie dla $CR = 0$ wszystkimi, z wyj¹tkiem jednego - warunek po lub - elementami wektora $u_i$ bêd¹ elementy pochodz¹ce od rodzica $x_i$). Operator krzy¿owania "miesza" wiêc losowo elementy rodzica $x_i$ i mutanta $v_i$ daj¹c w wyniku wektor próbny $u_i$. 
+
+\end{document}
