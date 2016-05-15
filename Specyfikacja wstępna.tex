@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{amsmath}
+\usepackage{hyperref}
 
 \author{Monika ¯urkowska\\ Kacper Sarnacki}
 \title{Specyfikacja Wstêpna\\ \textbf{Zmodyfikowany algorytm ewolucji ró¿nicowej}}
@@ -79,5 +80,22 @@ Jako funkcjê celu wykorzystamy 28 funkcji benchmarka CEC-2013. Testom poddane zo
 Algorytm zatrzyma siê po odpowiedniej iloœci iteracji - $10000*D$, gdzie $D$ jest wymiarem wektora (10, 30 i 50), b¹dŸ gdy wartoœæ b³êdu spadnie poni¿ej $10^{-8}$. Przestrzeñ przeszukiwania dla ka¿dego wymiaru znajdowaæ siê bêdzie w zakresie $[-100, 100]^D$. Pierwsza populacja generowana bêdzie losowo w przestrzeni przeszukiwania.\\
 
 Oczekiwanym rezultatem testów jest najlepszy wynik dla algorytmu klasycznego z selekcj¹ najlepszego elementu populacji. Gorszym powinien okazaæ siê algorytm z wyborem elementu œredniego, a najgorszy z wyborem elementu losowego.
+
+\begin{thebibliography}{9}
+\bibitem{wyklad} 
+\url{https://elektron.elka.pw.edu.pl/~jarabas/WAE/wyklad10.pdf}
+ 
+\bibitem{cecopis} 
+\url{https://www.rforge.net/doc/packages/cec2013/cec2013.html}
+ 
+\bibitem{cecdokumentacja} 
+\url{http://www.ntu.edu.sg/home/EPNSugan/index_files/CEC2013/Definitions\%20of\%20\%20CEC\%2013\%20benchmark\%20suite\%200117.pdf}
+
+\bibitem{prezentacja1} 
+\url{http://aragorn.pb.bialystok.pl/~wkwedlo/EA6.pdf}
+
+\bibitem{prezentacja1} 
+\url{http://www.mini.pw.edu.pl/~mandziuk/2012-01-12.pdf}
+\end{thebibliography}
 
 \end{document}
