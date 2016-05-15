@@ -13,7 +13,7 @@
 
 \section{Wstêp}
 
-Ewolucja ró¿nicowa jest stosunkowo nowym algorytmem optymalizacji numerycznej. Osobnikami s¹ $\mu$-wymiarowe wektory liczb rzeczywistych, w których fenotyp jest identyczny z genotypem, a mutacja polega na perturbacji losowo wybranego wektora o ró¿nicê dwóch innych wektorów pomno¿on¹ przez sta³y wspó³czynnik.
+Ewolucja ró¿nicowa jest stosunkowo nowym algorytmem optymalizacji numerycznej. Osobnikami s¹ $L$-wymiarowe wektory liczb rzeczywistych, w których mutacja polega na perturbacji wybranego wektora o ró¿nicê dwóch innych wektorów pomno¿on¹ przez sta³y wspó³czynnik.
 
 Algorytm jest bardzo prosty i dzia³a bardzo dobrze na typowych funkcjach testowych. Wymaga tylko trzech parametrów:\\
 
@@ -35,9 +35,9 @@ $\textbf{while}$ $!stop$\\
 \indent\indent $P^{t+1}_i = tournament(P^t_i, O^t_i)$\\
 \indent $t = t + 1$\\
 
-\section{Selekcja i sukcesja}
+\section{Selekcja}
 
-Algorytm ewolucji ró¿nicowej operuje na populacji $\mu$ osobników: $P_1, P_2, \ldots, P_\mu$, gdzie $P_i \in \mathbf{R}^L$. Pocz¹tkowa populacja tworzona jest losowo. W ka¿dej iteracji $t$, dla ka¿dego osobnika $P_i$ z populacji liczony jest osobnik $P_j$ bêd¹cy œredni¹ wszystkich $\mu$ osobników populacji. Nastêpnie wybierane s¹ losowo osobniki $P_k$, $P_l$ takie, ¿e $i \neq l \neq k$. 
+Algorytm ewolucji ró¿nicowej operuje na populacji $\mu$ osobników: $P_1, P_2, \ldots, P_\mu$, gdzie $P_i \in \mathbf{R}^L$. W ka¿dej iteracji $t$, dla ka¿dego osobnika $P_i$ z populacji liczony jest osobnik $P_j$ bêd¹cy œredni¹ wszystkich $\mu$ osobników populacji. Nastêpnie wybierane s¹ losowo osobniki $P_k$, $P_l$ takie, ¿e $i \neq l \neq k$. 
 
 
 \section{Mutacja}
@@ -74,7 +74,9 @@ Nastêpnie dopasowanie osobnika próbnego $O_i$ porównywane jest z osobnikiem rodz
 
 Powy¿szy algorytm bêdzie porównywany z klasycznym algorytmem genetycznym. Do porównania u¿yta zostanie wersja z selekcj¹ losowego osobnika (DE/rand/1/bin) oraz najlepszego w populacji (DE/best/1/bin).
 
-Testy zostan¹ przeprowadzone przy pomocy 28 funkcji benchmarka CEC-2013. Zostan¹ nim poddane klasyczne algorytmy ewolucji ró¿nicowej oraz zmodyfikowana wersja uwzglêdniaj¹ca wybór œredniej populacji w mutacji. Ka¿dy test zostanie przeprowadzony 50 razy. Nastêpnie dla ka¿dego algorytmu, dla ka¿dej funkcji benchmarka zostanie obliczona œrednia wartoœæ testu.
+Testy zostan¹ przeprowadzone przy pomocy 28 funkcji benchmarka CEC-2013. Zostan¹ nim poddane klasyczne algorytmy ewolucji ró¿nicowej oraz zmodyfikowana wersja uwzglêdniaj¹ca wybór œredniej populacji w mutacji z kolejne 10, 30 i 50-wymiarowymi wektorami populacji. Ka¿dy test zostanie przeprowadzony 21 razy (dla ka¿dego wymiaru osobno). Nastêpnie dla ka¿dego algorytmu, dla ka¿dej funkcji benchmarka zostanie obliczona tabela zawieraj¹ca: najlepsze, najgorsze, œrednie oraz medianowe rozwi¹zanie a tak¿e odchylenie standardowe.\\
+
+Algorytm zatrzyma siê po odpowiedniej iloœci iteracji - $10000*D$, gdzie $D$ jest wymiarem wektora (10, 30 i 50), b¹dŸ gdy wartoœæ b³êdu spadnie poni¿ej $10^{-8}$. Przestrzeñ przeszukiwania dla ka¿dego wymiaru znajdowaæ siê bêdzie w zakresie $[-100, 100]^D$. Pierwsza populacja generowana bêdzie losowo w przestrzeni przeszukiwania.\\
 
 Oczekiwanym rezultatem testów jest najlepszy wynik dla algorytmu klasycznego z selekcj¹ najlepszego elementu populacji. Gorszym powinien okazaæ siê algorytm z wyborem elementu œredniego, a najgorszy z wyborem elementu losowego.
 
