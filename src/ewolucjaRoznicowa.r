@@ -4,9 +4,9 @@ library(xlsx)
 minDimVal<- -100                   # min value of every dimension
 maxDimVal <- 100                   # max value of every dimension
 eps <- 10^-8                       # error values smaller than eps are considered as 0
-mVectorLen <- c(10, 30, 50)          # vector length
+mVectorLen <- c(10)          # vector length
 mPopulationCount <- 150            # population count
-F_Cr_params <- c(0.25, 0.5, 0.75)  # testable values for F and Cr parameters
+F_Cr_params <- c(0.25)  # testable values for F and Cr parameters
 
 # returns mean vector from rows in P
 select <- function(P) {
@@ -75,8 +75,7 @@ DEalgorithm <- function(q, P, FParam, cr, expectedValue) {
   stop <- FALSE
   newP <- P
   minVal <- numeric()
-  
-  cat("expectedValue=",expectedValue,"\n")
+
   while(!stop) {
     Pj <- select(P)
     for (i in 1:mi) {
@@ -109,7 +108,7 @@ classicalDEalgorithm <- function(q, P, FParam, cr, expectedValue) {
   stop <- FALSE
   newP <- P
   minVal <- numeric()
-  cat("expectedValue=",expectedValue,"\n")
+
   while(!stop) {
     for (i in 1:mi) {
       samples <- getSample(P, 3)
@@ -164,7 +163,7 @@ mainFunction <- function() {
           results <- vector(mode="numeric", length=0)
           results2 <- vector(mode="numeric", length=0)
           # ...21 times.
-          for(j in 1:21) {
+          for(j in 1:10) {
             cat(j,". F=",FParam,", Cr=",Cr,", L=",L,", Func=",i,"\n", sep="")
             
             P <- generateRandomMatrix(L, mPopulationCount, minDimVal, maxDimVal)
@@ -177,7 +176,7 @@ mainFunction <- function() {
           minValue <- min(results)
           minValue2 <- min(results2)
           maxValue <- max(results)
-          maxValue2 <- max(results)
+          maxValue2 <- max(results2)
           medianValue <- median(results)
           medianValue2 <- median(results2)
           meanValue <- mean(results)
@@ -196,6 +195,10 @@ mainFunction <- function() {
           finalTable$MeanClassic[i] <- meanValue2
           finalTable$Std[i] <- stdValue
           finalTable$StdClassic[i] <- stdValue2
+          
+          cat("Expected=", expectedValue[i], "Max=",maxValue, "MaxClassic=",maxValue2,"Min=",
+              minValue,"MinClassic=",minValue2,"Median=",medianValue,"MedianClassic=",medianValue2,
+              "Mean=",meanValue,"MeanClassic=",meanValue2,"Std=",stdValue,"StdClassic=",stdValue2)
         } # for(i)
         
         # write results to xls file
