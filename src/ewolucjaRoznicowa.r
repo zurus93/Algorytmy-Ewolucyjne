@@ -1,7 +1,12 @@
+library(xlsx)
+
 # algorithm constant parameters
-minDimVal<- -100      # min value of every dimension
-maxDimVal <- 100      # max value of every dimension
-eps <- 10^-8          # error values smaller than eps are considered as 0
+minDimVal<- -100                   # min value of every dimension
+maxDimVal <- 100                   # max value of every dimension
+eps <- 10^-8                       # error values smaller than eps are considered as 0
+mVectorLen <- c(10, 30, 50)          # vector length
+mPopulationCount <- 150            # population count
+F_Cr_params <- c(0.25, 0.5, 0.75)  # testable values for F and Cr parameters
 
 # returns mean vector from rows in P
 select <- function(P) {
@@ -14,12 +19,14 @@ select <- function(P) {
   }
   return(ans)
 }
+
 # gets 'count' unique rows from P
 getSample <- function(P, count) {
   mi <- nrow(P)
   indices <- sample(1:mi, count, replace=F)
   return(P[indices,])
 }
+
 # returns result of crossover operation of elements Pi and Mi using parameter rc
 crossover <- function(Pi, Mi, cr) {
   L <- length(Pi)
@@ -36,11 +43,11 @@ crossover <- function(Pi, Mi, cr) {
   }
   return(O)
 }
+
 # returns vector whose evaluation function value is lower
 tournament <- function(q, Pi, Oi) {
   PiVal <- q(Pi)
   OiVal <- q(Oi)
-  cat("q = ", PiVal,"\n")
   if (PiVal > OiVal) {
     return(Oi)
   }
@@ -48,16 +55,19 @@ tournament <- function(q, Pi, Oi) {
     return(Pi)
   }
 }
+
 # generates random matrix with 'cols' columns and 'rows' rows, every value is in range [-minVal, maxVal]
 generateRandomMatrix <- function(cols, rows, minVal, maxVal) {
   return(matrix(runif(cols*rows, minVal, maxVal), ncol=cols, nrow=rows))
 }
+
 # returns best value of evaluation function from all rows of matrix P
 getBestResult <- function(q, P) {
   min(apply(P, 1, q))
 }
+
 # differential evolution algorithm with mean vector, returns minimum of q function
-DEalgorithm <- function(q, P, F, cr, expectedValue) {
+DEalgorithm <- function(q, P, FParam, cr, expectedValue) {
   t <- 0
   mi <- nrow(P)
   L <- ncol(P)
@@ -66,69 +76,124 @@ DEalgorithm <- function(q, P, F, cr, expectedValue) {
   newP <- P
   minVal <- numeric()
   
+  cat("expectedValue=",expectedValue,"\n")
   while(!stop) {
+    Pj <- select(P)
     for (i in 1:mi) {
-      Pj <- select(P)
       samples <- getSample(P, 2)
       Pk <- samples[1,]
       Pl <- samples[2,]
-      M <- Pj + F * (Pk-Pl)
+      M <- Pj + FParam * (Pk-Pl)
       O <- crossover(P[i,], M, cr)
       newP[i,] <- tournament(q, P[i,], O)
+      
+      t <- t + 2
     }
     P <- newP
     minVal <- getBestResult(q, P)
     error <- abs(minVal - expectedValue)
-    t <- t + 1
-    if(t >= maxIterations || error < eps) {
-      stop <- TRUE
-    }
-  }
-  return(minVal)
-}
-# classical differential evolution algorithm, returns minimum of q function
-classicalDEalgorithm <- function(q, P, F, cr, expectedValue) {
-  t <- 0
-  mi <- nrow(P)
-  L <- ncol(P)
-  iterations <- 10000 * L
-  stop <- FALSE
-  newP <- P
-  minVal <- numeric()
-  
-  while(!stop) {
-    for (i in 1:mi) {
-      samples <- getSample(P, 3)
-      Pj <- samples[1,]
-      Pk <- samples[2,]
-      Pl <- samples[3,]
-      M <- Pj + F * (Pk-Pl)
-      O <- crossover(P[i,], M, cr)
-      newP[i,] <- tournament(q, P[i,], O)
-    }
-    P <- newP
-    minVal <- getBestResult(q, P)
-    error <- abs(minVal - expectedValue)
-    t <- t + 1
-    if(t >= maxIterations || error < eps) {
+    
+    if(t >= iterations || error < eps) {
       stop <- TRUE
     }
   }
   return(minVal)
 }
 
-vectorLen <- 5
-populationCount <- 100
-expectedValue <- 0
-F <- 0.5
-cr <- 0.5
-q <- function(x) {
-  return(sum(x^2))
+# classical differential evolution algorithm, returns minimum of q function
+classicalDEalgorithm <- function(q, P, FParam, cr, expectedValue) {
+  t <- 0
+  mi <- nrow(P)
+  L <- ncol(P)
+  iterations <- 10000 * L
+  stop <- FALSE
+  newP <- P
+  minVal <- numeric()
+  cat("expectedValue=",expectedValue,"\n")
+  while(!stop) {
+    for (i in 1:mi) {
+      samples <- getSample(P, 3)
+      Pj <- samples[1,]
+      Pk <- samples[2,]
+      Pl <- samples[3,]
+      M <- Pj + FParam * (Pk-Pl)
+      O <- crossover(P[i,], M, cr)
+      newP[i,] <- tournament(q, P[i,], O)
+      
+      t <- t + 2
+    }
+    P <- newP
+    minVal <- getBestResult(q, P)
+    error <- abs(minVal - expectedValue)
+    if(t >= iterations || error < eps) {
+      stop <- TRUE
+    }
+  }
+  return(minVal)
 }
-P <- generateRandomMatrix(vectorLen, populationCount, minDimVal, maxDimVal)
-val <- DEalgorithm(q, P, F, cr, expectedValue)
-val2 <- classicalDEalgorithm(q, P, F, cr, expectedValue)
-print("Oczekkiwane minimum: 0")
-cat("Uzyskane minimum: ", val)
-cat("Uzyskane minimum: ", val2)
-s
+
+mainFunction <- function() {
+  # populate expected values for cec2013 functions
+  expectedValue1 <- seq(from = -1500, to = -100, by = 100)
+  expectedValue2 <- seq(from = 100, to = 1400, by = 100)
+  expectedValue <- c(expectedValue1, expectedValue2)
+  
+  finalTable <- data.frame(Expected=double(28),
+                   Max=double(28),
+                   Min=double(28),
+                   Median=double(28),
+                   Mean=double(28),
+                   Std=double(28))
+    
+  # Run each test for different F and Cr parameters...
+  for(FParam in F_Cr_params) {
+    for(Cr in F_Cr_params) {
+      # ...and for different vecotr lenght values....
+      for(L in mVectorLen) {
+        # ...and for different test functions
+        for(i in 1:28) {
+          # Function with which we test evolutional algorithm
+          q <- function(x) {
+            return(cec2013::cec2013(i, x))
+          }
+          results <- vector(mode="numeric", length=0)
+          results2 <- vector(mode="numeric", length=0)
+          # ...21 times.
+          for(j in 1:21) {
+            cat(j,". F=",FParam,", Cr=",Cr,", L=",L,", Func=",i,"\n", sep="")
+            
+            P <- generateRandomMatrix(L, mPopulationCount, minDimVal, maxDimVal)
+            val <- DEalgorithm(q, P, FParam, Cr, expectedValue[i])
+            val2 <- classicalDEalgorithm(q, P, FParam, Cr, expectedValue[i])
+            
+            results[j] <- val
+            resutls2[j] <- val2
+          } # for(j)
+          minValue <- min(results)
+          minValue2 <- min(results2)
+          maxValue <- max(results)
+          maxValue2 <- max(results)
+          medianValue <- median(results)
+          medianValue2 <- median(results2)
+          meanValue <- mean(results)
+          meanValue2 <- mean(results2)
+          stdValue <- sd(results)
+          stdValue2 <- sd(results2)
+          
+          finalTable$Expected[i] <- expectedValue[i]
+          finalTable$Max[i] <- maxValue
+          finalTable$Min[i] <- minValue
+          finalTable$Median[i] <- medianValue
+          finalTable$Mean[i] <- meanValue
+          finalTable$Std[i] <- stdValue
+        } # for(i)
+        
+        # write results to xls file
+        fileName <- paste("table_","F_",FParam,"_Cr_",Cr,"_L_",L,".xlsx", sep="")
+        write.xlsx(finalTable, fileName)
+      } # for(L)
+    } # for(Cr)
+  } # for(FParam)
+}
+
+mainFunction()
