@@ -84,6 +84,8 @@ DEalgorithm <- function(q, P, FParam, cr, expectedValue) {
       Pk <- samples[1,]
       Pl <- samples[2,]
       M <- Pj + FParam * (Pk-Pl)
+      M = replace(M, M>maxDimVal, maxDimVal)
+      M = replace(M, M<minDimVal, minDimVal)
       O <- crossover(P[i,], M, cr)
       newP[i,] <- tournament(q, P[i,], O)
       
@@ -117,6 +119,8 @@ classicalDEalgorithm <- function(q, P, FParam, cr, expectedValue) {
       Pk <- samples[2,]
       Pl <- samples[3,]
       M <- Pj + FParam * (Pk-Pl)
+      M = replace(M, M>maxDimVal, maxDimVal)
+      M = replace(M, M<minDimVal, minDimVal)
       O <- crossover(P[i,], M, cr)
       newP[i,] <- tournament(q, P[i,], O)
       
