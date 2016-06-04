@@ -71,7 +71,7 @@ DEalgorithm <- function(q, P, FParam, cr, expectedValue) {
   t <- 0
   mi <- nrow(P)
   L <- ncol(P)
-  iterations <- 10 * L
+  iterations <- 10000 * L
   stop <- FALSE
   newP <- P
   minVal <- numeric()
@@ -105,7 +105,7 @@ classicalDEalgorithm <- function(q, P, FParam, cr, expectedValue) {
   t <- 0
   mi <- nrow(P)
   L <- ncol(P)
-  iterations <- 10 * L
+  iterations <- 10000 * L
   stop <- FALSE
   newP <- P
   minVal <- numeric()
