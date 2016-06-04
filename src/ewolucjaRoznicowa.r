@@ -71,7 +71,7 @@ DEalgorithm <- function(q, P, FParam, cr, expectedValue) {
   t <- 0
   mi <- nrow(P)
   L <- ncol(P)
-  iterations <- 10000 * L
+  iterations <- 10 * L
   stop <- FALSE
   newP <- P
   minVal <- numeric()
@@ -105,7 +105,7 @@ classicalDEalgorithm <- function(q, P, FParam, cr, expectedValue) {
   t <- 0
   mi <- nrow(P)
   L <- ncol(P)
-  iterations <- 10000 * L
+  iterations <- 10 * L
   stop <- FALSE
   newP <- P
   minVal <- numeric()
@@ -140,10 +140,15 @@ mainFunction <- function() {
   
   finalTable <- data.frame(Expected=double(28),
                    Max=double(28),
+                   MaxClassic=double(28),
                    Min=double(28),
+                   MinClassic=double(28),
                    Median=double(28),
+                   MedianClassic=double(28),
                    Mean=double(28),
-                   Std=double(28))
+                   MeanClassic=double(28),
+                   Std=double(28),
+                   StdClassic=double(28))
     
   # Run each test for different F and Cr parameters...
   for(FParam in F_Cr_params) {
@@ -167,7 +172,7 @@ mainFunction <- function() {
             val2 <- classicalDEalgorithm(q, P, FParam, Cr, expectedValue[i])
             
             results[j] <- val
-            resutls2[j] <- val2
+            results2[j] <- val2
           } # for(j)
           minValue <- min(results)
           minValue2 <- min(results2)
@@ -182,10 +187,15 @@ mainFunction <- function() {
           
           finalTable$Expected[i] <- expectedValue[i]
           finalTable$Max[i] <- maxValue
+          finalTable$MaxClassic[i] <- maxValue2
           finalTable$Min[i] <- minValue
+          finalTable$MinClassic[i] <- minValue2
           finalTable$Median[i] <- medianValue
+          finalTable$MedianClassic[i] <- medianValue2
           finalTable$Mean[i] <- meanValue
+          finalTable$MeanClassic[i] <- meanValue2
           finalTable$Std[i] <- stdValue
+          finalTable$StdClassic[i] <- stdValue2
         } # for(i)
         
         # write results to xls file
