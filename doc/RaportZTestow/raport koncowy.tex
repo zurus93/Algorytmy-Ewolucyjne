@@ -55,11 +55,132 @@
 \begin{document}
 \maketitle
 
-\section {Przypomnienie}
-Celem naszego projektu było zaimplementowanie zmodyfikowanego algorytmu ewolucji różnicowej, w którym jako pierwszy z 3 punktów stosowanych podczas mutacji wybierana była średnia punktów populacji a następnie porównanie tego rozwiązanie z klasycznym algorytmem ewolucji różnicowej wykorzystując benchmark "cec2013" do testowania.
-
+\section{Przypomnienie}
+Celem naszego projektu było zaimplementowanie zmodyfikowanego algorytmu ewolucji różnicowej, w którym jako pierwszy z 3 punktów stosowanych podczas mutacji wybierana była średnia punktów populacji a następnie porównanie tego rozwiązanie z klasycznym algorytmem ewolucji różnicowej wykorzystując benchmark ''cec2013'' do testowania.
 
 \section{Lista zmian}
+W związku z długim czasem wykonywania się testów musieliśmy przyjąć kilka poprawek w stosunku do przyjętych założeń ze Specyfikacji Wstępnej:
+
+\begin{itemize}
+\item Rozmiar wektorów dla których przeprowadziliśmy testy: 5 oraz 10
+\item Mniejsza liczba kombinacji współczynników F i Cr (patrz \ref{sec:testy})
+\item Liczba iteracji dla każdego testu: 10
+\item  Algorytm porównujemy wyłącznie z klasycznym algorytmem z losowym doborem 3 punktów w przeciwieństwie do wcześniejszego założenia o porównaniu go z algorytmem losowym i algorytmem, w którym jako pierwszy z trzech punktów wybierany jest najlepszy spośród obecnej populacji
+\end{itemize}
+
+\section{Testy}
+\label{sec:testy}
+
+Zgodnie z wymaganiami, nasze testy przeprowadziliśmy na benchmarku ''cec2013' dla naszego algorytmu oraz dla algorytmu klasycznego. Wyniki przedstawione zostały w tabelach poniżej.
+
+\subsection{5-wymiarowa populacja}
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F25Cr25L5tab.png}
+\caption{5-wymiarowa populacja. Wyniki dla parametrów: F = 0.25, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F25Cr25L5chart.png}
+\caption{5-wymiarowa populacja. Wykres porównujący najlepsze rozwiązania dla naszego algorytmu oraz klasycznego. Parametry: F = 0.25, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F5Cr25L5tab.png}
+\caption{5-wymiarowa populacja. Wyniki dla parametrów: F = 0.5, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F5Cr25L5chart.png}
+\caption{5-wymiarowa populacja. Wykres porównujący najlepsze rozwiązania dla naszego algorytmu oraz klasycznego. Parametry: F = 0.5, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F5Cr5L5tab.png}
+\caption{5-wymiarowa populacja. Wyniki dla parametrów: F = 0.5, Cr = 0.5}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F5Cr5L5chart.png}
+\caption{5-wymiarowa populacja. Wykres porównujący najlepsze rozwiązania dla naszego algorytmu oraz klasycznego. Parametry: F = 0.5, Cr = 0.5}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr25L5tab.png}
+\caption{5-wymiarowa populacja. Wyniki dla parametrów: F = 0.75, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr25L5chart.png}
+\caption{5-wymiarowa populacja. Wykres porównujący najlepsze rozwiązania dla naszego algorytmu oraz klasycznego. Parametry: F = 0.75, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr5L5tab.png}
+\caption{5-wymiarowa populacja. Wyniki dla parametrów: F = 0.75, Cr = 0.5}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr5L5chart.png}
+\caption{5-wymiarowa populacja. Wykres porównujący najlepsze rozwiązania dla naszego algorytmu oraz klasycznego. Parametry: F = 0.75, Cr = 0.5}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr75L5tab.png}
+\caption{5-wymiarowa populacja. Wyniki dla parametrów: F = 0.75, Cr = 0.5}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr75L5chart.png}
+\caption{5-wymiarowa populacja. Wykres porównujący najlepsze rozwiązania dla naszego algorytmu oraz klasycznego. Parametry: F = 0.75, Cr = 0.5}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F25Cr25L10tab.png}
+\caption{10-wymiarowa populacja. Wyniki dla parametrów: F = 0.25, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F25Cr25L10chart.png}
+\caption{10-wymiarowa populacja. Wykres porównujący najlepsze rozwiązania dla naszego algorytmu oraz klasycznego. Parametry: F = 0.25, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr25L10tab.png}
+\caption{10-wymiarowa populacja. Wyniki dla parametrów: F = 0.75, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr25L10chart.png}
+\caption{10-wymiarowa populacja. Wykres porównujący najlepsze rozwiązania dla naszego algorytmu oraz klasycznego. Parametry: F = 0.75, Cr = 0.25}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr75L10tab.png}
+\caption{10-wymiarowa populacja. Wyniki dla parametrów: F = 0.75, Cr = 0.75}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{F75Cr75L10chart.png}
+\caption{10-wymiarowa populacja. Wykres porównujący najlepsze rozwiązania dla naszego algorytmu oraz klasycznego. Parametry: F = 0.75, Cr = 0.75}
+\end{figure}
 
 \end{document}
 
