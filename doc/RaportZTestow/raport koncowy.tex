@@ -1,0 +1,65 @@
+\documentclass[a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\linespread{1.2}
+%\overfullrule=2cm % for debugging purposes! comment in production
+% displays overfill rule on side of the document
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,polish]{babel}
+
+% babel defines \lll
+\let\babellll\lll
+\let\lll\relax
+
+\usepackage[htt]{hyphenat}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{polski}
+%\usepackage[T1]{fontenc}
+%\usepackage[scaled]{beramono}
+\usepackage{hyperref}
+
+\usepackage{color}
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+
+\usepackage{listings}
+\lstset{language=[Sharp]C,
+	showspaces=false,
+	showtabs=false,
+	breaklines=false,
+	showstringspaces=false,
+	breakatwhitespace=true,
+	escapeinside={(*@}{@*)},
+	commentstyle=\color{greencomments},
+	%keywordstyle=\color{bluekeywords}\bfseries,
+	stringstyle=\color{redstrings},
+	basicstyle=\ttfamily
+}
+
+
+\title{Wstęp do Algorytmów Ewolucyjnych \\
+	\large Raport z testów}
+
+\date{\today}
+\author{Kacper Sarnacki \and Monika Żurkowska}
+
+\begin{document}
+\maketitle
+
+\section {Przypomnienie}
+Celem naszego projektu było zaimplementowanie zmodyfikowanego algorytmu ewolucji różnicowej, w którym jako pierwszy z 3 punktów stosowanych podczas mutacji wybierana była średnia punktów populacji a następnie porównanie tego rozwiązanie z klasycznym algorytmem ewolucji różnicowej wykorzystując benchmark "cec2013" do testowania.
+
+
+\section{Lista zmian}
+
+\end{document}
+
