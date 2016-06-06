@@ -142,7 +142,7 @@ classicalDEalgorithm <- function(q, P, FParam, cr, expectedValue) {
 
 mainFunction <- function() {
   # populate expected values for cec2013 functions
-  expectedValue1 <- seq(from = -1500, to = -100, by = 100)
+  expectedValue1 <- seq(from = -1400, to = -100, by = 100)
   expectedValue2 <- seq(from = 100, to = 1400, by = 100)
   expectedValue <- c(expectedValue1, expectedValue2)
   
@@ -182,28 +182,18 @@ mainFunction <- function() {
             results[j] <- val
             results2[j] <- val2
           } # for(j)
-          minValue <- min(results)
-          minValue2 <- min(results2)
-          maxValue <- max(results)
-          maxValue2 <- max(results2)
-          medianValue <- median(results)
-          medianValue2 <- median(results2)
-          meanValue <- mean(results)
-          meanValue2 <- mean(results2)
-          stdValue <- sd(results)
-          stdValue2 <- sd(results2)
           
           finalTable$Expected[i] <- expectedValue[i]
-          finalTable$Max[i] <- maxValue
-          finalTable$MaxClassic[i] <- maxValue2
-          finalTable$Min[i] <- minValue
-          finalTable$MinClassic[i] <- minValue2
-          finalTable$Median[i] <- medianValue
-          finalTable$MedianClassic[i] <- medianValue2
-          finalTable$Mean[i] <- meanValue
-          finalTable$MeanClassic[i] <- meanValue2
-          finalTable$Std[i] <- stdValue
-          finalTable$StdClassic[i] <- stdValue2
+          finalTable$Max[i] <- max(results)
+          finalTable$MaxClassic[i] <- max(results2)
+          finalTable$Min[i] <- min(results)
+          finalTable$MinClassic[i] <- min(results2)
+          finalTable$Median[i] <- median(results)
+          finalTable$MedianClassic[i] <- median(results2)
+          finalTable$Mean[i] <- mean(results)
+          finalTable$MeanClassic[i] <- mean(results2)
+          finalTable$Std[i] <- sd(results)
+          finalTable$StdClassic[i] <- sd(results2)
           
           cat("Expected=", expectedValue[i], "Max=",maxValue, "MaxClassic=",maxValue2,"Min=",
               minValue,"MinClassic=",minValue2,"Median=",medianValue,"MedianClassic=",medianValue2,
