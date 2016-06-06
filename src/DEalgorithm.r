@@ -1,12 +1,13 @@
 library(xlsx)
+library(cec2013)
 
 # algorithm constant parameters
 minDimVal<- -100                   # min value of every dimension
 maxDimVal <- 100                   # max value of every dimension
 eps <- 10^-8                       # error values smaller than eps are considered as 0
-mVectorLen <- c(10)          # vector length
+mVectorLen <- c(5, 10)             # vector length
 mPopulationCount <- 150            # population count
-F_Cr_params <- c(0.25)  # testable values for F and Cr parameters
+F_Cr_params <- c(0.25, 0.5, 0.75)  # testable values for F and Cr parameters
 
 # returns mean vector from rows in P
 select <- function(P) {
@@ -83,11 +84,13 @@ DEalgorithm <- function(q, P, FParam, cr, expectedValue) {
       Pk <- samples[1,]
       Pl <- samples[2,]
       M <- Pj + FParam * (Pk-Pl)
+      # replace if analysed vector is out of search area
       M = replace(M, M>maxDimVal, maxDimVal)
       M = replace(M, M<minDimVal, minDimVal)
       O <- crossover(P[i,], M, cr)
       newP[i,] <- tournament(q, P[i,], O)
       
+      # during for loop q function is ran 2 times in tournament function
       t <- t + 2
     }
     P <- newP
@@ -118,11 +121,13 @@ classicalDEalgorithm <- function(q, P, FParam, cr, expectedValue) {
       Pk <- samples[2,]
       Pl <- samples[3,]
       M <- Pj + FParam * (Pk-Pl)
+      # replace if analysed vector is out of search area
       M = replace(M, M>maxDimVal, maxDimVal)
       M = replace(M, M<minDimVal, minDimVal)
       O <- crossover(P[i,], M, cr)
       newP[i,] <- tournament(q, P[i,], O)
       
+      # during for loop q function is ran 2 times in tournament function
       t <- t + 2
     }
     P <- newP
@@ -160,13 +165,13 @@ mainFunction <- function() {
       for(L in mVectorLen) {
         # ...and for different test functions
         for(i in 1:28) {
-          # Function with which we test evolutional algorithm
+          # Evaluation function
           q <- function(x) {
             return(cec2013::cec2013(i, x))
           }
           results <- vector(mode="numeric", length=0)
           results2 <- vector(mode="numeric", length=0)
-          # ...21 times.
+          # Run each test 10 times.
           for(j in 1:10) {
             cat(j,". F=",FParam,", Cr=",Cr,", L=",L,", Func=",i,"\n", sep="")
             
